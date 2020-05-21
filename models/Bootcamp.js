@@ -12,6 +12,7 @@ const BootcampSchema = new Schema({
   slug: String,
   description: {
     type: String,
+    required: [true, 'Please Add A Description'],
     maxlength: [500, 'Description cannot be more than 500 Characters'],
   },
   website: {
