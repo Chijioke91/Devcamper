@@ -12,19 +12,18 @@ exports.getBootcamps = asyncHandler(async (req, res, next) => {
     .json({ success: true, count: bootcamps.length, data: bootcamps });
 });
 
-exports.getBootcamps =
-  // @desc get a single boootcamp
-  // @route GET /api/v1/bootcamps/:id
-  // @access public
-  exports.getBootcamp = asyncHandler(async (req, res, next) => {
-    const bootcamp = await BootCamp.findById(req.params.id);
+// @desc get a single boootcamp
+// @route GET /api/v1/bootcamps/:id
+// @access public
+exports.getBootcamp = asyncHandler(async (req, res, next) => {
+  const bootcamp = await BootCamp.findById(req.params.id);
 
-    if (!bootcamp) {
-      return next(new ErrorResponse(`Bootcamp Not Found`, 404));
-    }
+  if (!bootcamp) {
+    return next(new ErrorResponse(`Bootcamp Not Found`, 404));
+  }
 
-    res.status(200).json({ success: true, data: bootcamp });
-  });
+  res.status(200).json({ success: true, data: bootcamp });
+});
 
 // @desc create a boootcamp
 // @route POST /api/v1/bootcamps
