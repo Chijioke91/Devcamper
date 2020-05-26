@@ -132,4 +132,6 @@ BootcampSchema.pre('save', async function (next) {
   next();
 });
 
-module.exports = model('Bootcamp', BootcampSchema);
+const Bootcamp = model('Bootcamp', BootcampSchema);
+
+module.exports = Bootcamp;
