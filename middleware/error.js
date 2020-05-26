@@ -3,7 +3,7 @@ const ErrorResponse = require('../utils/errorResponse');
 const errorHandler = (err, req, res, next) => {
   let error = { ...err };
 
-  // console.log(error);
+  console.log(err);
 
   // check for cast error (wrong id)
   if (err.name === 'CastError') {

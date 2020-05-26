@@ -1,5 +1,4 @@
 const { model, Schema } = require('mongoose');
-const { ObjectId } = Schema.Types;
 const slugify = require('slugify');
 const geocoder = require('../utils/geocoder');
 
@@ -128,7 +127,7 @@ BootcampSchema.pre('save', async function (next) {
   };
 
   // do not save address on db
-  // this.address = null;
+  // this.address = undefined;
 
   next();
 });

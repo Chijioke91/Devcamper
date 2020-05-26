@@ -19,8 +19,10 @@ const app = express();
 // body parser
 app.use(express.json());
 
-// morgan middleware
-app.use(morgan('dev'));
+// dev logging middleware
+if (process.env.NODE_ENV === 'development') {
+  app.use(morgan('dev'));
+}
 
 // routes
 app.use('/api/v1/bootcamps', bootcamps);
