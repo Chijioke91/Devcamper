@@ -7,7 +7,7 @@ dotenv.config({ path: './config/config.env' });
 
 const colors = require('colors');
 
-const { Bootcamp } = require('./models');
+const Bootcamp = require('./models/Bootcamp');
 
 mongoose.connect(process.env.MONGO_URI, {
   useUnifiedTopology: true,
@@ -22,7 +22,7 @@ const bootcamps = JSON.parse(
 
 const importData = async () => {
   try {
-    await BootCamp.create(bootcamps);
+    await Bootcamp.create(bootcamps);
     console.log(`Data Imported`.green.inverse);
     process.exit();
   } catch (e) {
@@ -32,7 +32,7 @@ const importData = async () => {
 
 const deleteData = async () => {
   try {
-    await BootCamp.deleteMany();
+    await Bootcamp.deleteMany();
     console.log(`Data Destroyed`.red.inverse);
     process.exit();
   } catch (e) {
