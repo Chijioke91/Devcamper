@@ -39,6 +39,39 @@ const CourseSchema = new Schema({
   },
 });
 
+// get average cost of courses
+CourseSchema.statics.getAverageCost = async function (bootcampId) {
+  const obj = await this.aggregate([
+    {
+      $match: {
+        bootcamp: bootcampId,
+      },
+    },
+    {
+      $group: {
+        _id: '$bootcamp',
+        averageCost: { $avg: '$tuition' },
+      },
+    },
+  ]);
+
+  try {
+    await this.model('Bootcamp').findByIdAndUpdate(bootcampId, {
+      averageCost: Math.ceil(obj[0].averageCost * 10) / 10,
+    });
+  } catch (e) {
+    console.log(e.message);
+  }
+};
+
+CourseSchema.post('save', function () {
+  this.constructor.getAverageCost(this.bootcamp);
+});
+
+CourseSchema.pre('remove', function () {
+  this.constructor.getAverageCost(this.bootcamp);
+});
+
 const Course = model('Course', CourseSchema);
 
 module.exports = Course;
