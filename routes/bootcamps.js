@@ -13,11 +13,13 @@ const {
 
 // fetch other resource routes
 const courseRouter = require('./courses');
+const reviewRouter = require('./reviews');
 const advancedResults = require('../middleware/advancedResults');
 const { protect, authorize } = require('../middleware/auth');
 
 // add courses route to bootcamp to fetch courses for a particular bootcamp
 router.use('/:bootcampId/courses', courseRouter);
+router.use('/:bootcampId/reviews', reviewRouter);
 
 router.get('/radius/:zipcode/:distance', getBootcampsInRadius);
 

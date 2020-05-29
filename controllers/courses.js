@@ -1,7 +1,6 @@
 const { Course, Bootcamp } = require('../models');
 const asyncHandler = require('../middleware/async');
 const ErrorResponse = require('../utils/errorResponse');
-const geocoder = require('../utils/geocoder');
 
 // @desc get all Courses
 // @route GET /api/v1/courses
@@ -16,10 +15,6 @@ exports.getCourses = asyncHandler(async (req, res, next) => {
   } else {
     return res.status(200).json(res.advancedResults);
   }
-
-  const courses = await query;
-
-  res.status(200).json({ success: true, count: courses.length, data: courses });
 });
 
 // @desc get a single Course
