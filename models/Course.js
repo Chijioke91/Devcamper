@@ -37,6 +37,11 @@ const CourseSchema = new Schema({
     ref: 'Bootcamp',
     required: true,
   },
+  user: {
+    type: ObjectId,
+    ref: 'User',
+    required: true,
+  },
 });
 
 // get average cost of courses

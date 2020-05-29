@@ -45,6 +45,7 @@ exports.getCourse = asyncHandler(async (req, res, next) => {
 // @access Private
 exports.addCourse = asyncHandler(async (req, res, next) => {
   req.body.bootcamp = req.params.bootcampId;
+  req.body.user = req.user.id;
 
   const bootcamp = await Bootcamp.findById(req.params.bootcampId);
 
@@ -57,9 +58,19 @@ exports.addCourse = asyncHandler(async (req, res, next) => {
     );
   }
 
+  // ensure it's bootcamp owner that can create the course
+  if (bootcamp.user.toString() !== req.user.id && req.user.role !== 'admin') {
+    return next(
+      new ErrorResponse(
+        'This user is not permitted to add a course to this bootcamp',
+        401
+      )
+    );
+  }
+
   const course = await Course.create(req.body);
 
-  res.status(200).json({ success: true, data: course });
+  res.status(201).json({ success: true, data: course });
 });
 
 // @desc update a Course
@@ -71,6 +82,13 @@ exports.updateCourse = asyncHandler(async (req, res, next) => {
   if (!course) {
     return next(
       new ErrorResponse(`Course with ID ${req.params.id} Not Found`, 404)
+    );
+  }
+
+  // ensure it's course owner that can update the course
+  if (course.user.toString() !== req.user.id && req.user.role !== 'admin') {
+    return next(
+      new ErrorResponse('This user is not permitted to update this course', 401)
     );
   }
 
@@ -92,6 +110,13 @@ exports.deleteCourse = asyncHandler(async (req, res, next) => {
   if (!course) {
     return next(
       new ErrorResponse(`Course with ID ${req.params.id} Not Found`, 404)
+    );
+  }
+
+  // ensure it's course owner that can update the course
+  if (course.user.toString() !== req.user.id && req.user.role !== 'admin') {
+    return next(
+      new ErrorResponse('This user is not permitted to update this course', 401)
     );
   }
 

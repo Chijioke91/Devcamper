@@ -1,4 +1,5 @@
 const { model, Schema } = require('mongoose');
+const { ObjectId } = Schema.Types;
 const slugify = require('slugify');
 const geocoder = require('../utils/geocoder');
 
@@ -103,6 +104,11 @@ const BootcampSchema = new Schema(
     createdAt: {
       type: Date,
       default: Date.now,
+    },
+    user: {
+      type: ObjectId,
+      ref: 'User',
+      required: true,
     },
   },
   {
