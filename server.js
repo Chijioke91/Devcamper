@@ -11,7 +11,7 @@ const errorHandler = require('./middleware/error');
 // LOAD ENV VARS
 dotenv.config({ path: './config/config.env' });
 
-const { bootcamps, courses, auth } = require('./routes');
+const { bootcamps, courses, auth, users } = require('./routes');
 
 connectDb();
 
@@ -40,6 +40,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/api/v1/bootcamps', bootcamps);
 app.use('/api/v1/courses', courses);
 app.use('/api/v1/auth', auth);
+app.use('/api/v1/users', users);
 
 // error handler
 app.use(errorHandler);
