@@ -3,6 +3,12 @@ const express = require('express');
 const morgan = require('morgan');
 const dotenv = require('dotenv');
 const colors = require('colors');
+const mongoSanitize = require('express-mongo-sanitize');
+const helmet = require('helmet');
+const xss = require('xss-clean');
+const rateLimit = require('express-rate-limit');
+const hpp = require('hpp');
+const cors = require('cors');
 const fileUpload = require('express-fileupload');
 const cookieParser = require('cookie-parser');
 const connectDb = require('./config/db');
@@ -35,6 +41,29 @@ app.use(fileUpload());
 
 // set static folder
 app.use(express.static(path.join(__dirname, 'public')));
+
+// protect headers
+app.use(helmet());
+
+// sanitize inputs
+app.use(mongoSanitize());
+
+// sanitize body inputs or prevent cross-site scripting texts
+app.use(xss());
+
+// add Rate limiter for all routes(i.e then number of request made to a route within a particular time frame)
+const limiter = rateLimit({
+  windowMs: 10 * 60 * 1000, // 10 minutes
+  max: 100,
+});
+
+app.use(limiter);
+
+// prevent hpp parant pollution
+app.use(hpp());
+
+// Enable CORS
+app.use(cors());
 
 // routes
 app.use('/api/v1/bootcamps', bootcamps);
